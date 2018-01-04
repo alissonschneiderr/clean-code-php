@@ -67,7 +67,7 @@ $ymdstr = $moment->format('y-m-d');
 **Bom:**
 
 ```php
-$currentDate = $moment->format('y-m-d');
+$dataAtual = $moment->format('y-m-d');
 ```
 
 **[⬆ voltar para o topo](#sumário)**
@@ -101,7 +101,7 @@ Faça variáveis com nomes pesquisáveis.
 **Ruim:**
 
 ```php
-// What the heck is 448 for?
+// O 448 serve para o que?
 $result = $serializer->serialize($data, 448);
 ```
 
@@ -116,8 +116,8 @@ $json = $serializer->serialize($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
 **Ruim:**
 
 ```php
-// What the heck is 4 for?
-if ($user->access & 4) {
+// O 4 serve para o que?
+if ($usuario->accesso & 4) {
     // ...
 }
 ```
@@ -125,16 +125,16 @@ if ($user->access & 4) {
 **Bom:**
 
 ```php
-class User
+class Usuario
 {
-    const ACCESS_READ = 1;
-    const ACCESS_CREATE = 2;
-    const ACCESS_UPDATE = 4;
-    const ACCESS_DELETE = 8;
+    const ACCESSO_LEITURA = 1;
+    const ACCESSO_CRIACAO = 2;
+    const ACCESSO_ALTERACAO = 4;
+    const ACCESS0_REMOCAO = 8;
 }
 
-if ($user->access & User::ACCESS_UPDATE) {
-    // do edit ...
+if ($usuario->accesso & Usuario::ACCESSO_ALTERACAO) {
+    // ...
 }
 ```
 
@@ -145,11 +145,11 @@ if ($user->access & User::ACCESS_UPDATE) {
 **Ruim:**
 
 ```php
-$address = 'One Infinite Loop, Cupertino 95014';
-$cityZipCodeRegex = '/^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/';
-preg_match($cityZipCodeRegex, $address, $matches);
+$endereco = 'Rua Fernando Ferrai, Joaçaba 89600000';
+$cidadeCodigoPostalRegex = '/^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/';
+preg_match($cidadeCodigoPostalRegex, $endereco, $matches);
 
-saveCityZipCode($matches[1], $matches[2]);
+salvaCidadeCodigoPostal($matches[1], $matches[2]);
 ```
 
 **Nada mal:**
@@ -157,24 +157,24 @@ saveCityZipCode($matches[1], $matches[2]);
 É melhor, mas ainda depende do regex.
 
 ```php
-$address = 'One Infinite Loop, Cupertino 95014';
-$cityZipCodeRegex = '/^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/';
-preg_match($cityZipCodeRegex, $address, $matches);
+$endereco = 'Rua Fernando Ferrai, Joaçaba 89600000';
+$cidadeCodigoPostalRegex = '/^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/';
+preg_match($cidadeCodigoPostalRegex, $endereco, $matches);
 
-list(, $city, $zipCode) = $matches;
-saveCityZipCode($city, $zipCode);
+list($cidade, $codigoPostal) = $matches;
+salvaCidadeCodigoPostal($cidade, $codigoPostal);
 ```
 
 **Bom:**
 
-Diminui a dependencia do regex nomeando os subpadrões.
+Diminui a dependência do regex nomeando os subpadrões.
 
 ```php
-$address = 'One Infinite Loop, Cupertino 95014';
-$cityZipCodeRegex = '/^[^,\\]+[,\\\s]+(?<city>.+?)\s*(?<zipCode>\d{5})?$/';
-preg_match($cityZipCodeRegex, $address, $matches);
+$endereco = 'Rua Fernando Ferrai, Joaçaba 89600000';
+$cidadeCodigoPostalRegex = '/^[^,\\]+[,\\\s]+(?<cidade>.+?)\s*(?<codigoPostal>\d{8})?$/';
+preg_match($cidadeCodigoPostalRegex, $endereco, $matches);
 
-saveCityZipCode($matches['city'], $matches['zipCode']);
+salvaCidadeCodigoPostal($matches['cidade'], $matches['codigoPostal']);
 ```
 
 **[⬆ voltar para o topo](#sumário)**
@@ -187,16 +187,16 @@ Explicito é melhor que implicito.
 **Ruim:**
 
 ```php
-$l = ['Austin', 'New York', 'San Francisco'];
+$l = ['São Paulo', 'Joaçaba', 'Nova York'];
 
 for ($i = 0; $i < count($l); $i++) {
     $li = $l[$i];
-    doStuff();
-    doSomeOtherStuff();
+    facaAlgumaCoisa();
+    facaAlgumaOutraCoisa();
     // ...
     // ...
     // ...
-    // Wait, what is `$li` for again?
+    // Espere, o que é o `$li`?
     dispatch($li);
 }
 ```
@@ -204,15 +204,15 @@ for ($i = 0; $i < count($l); $i++) {
 **Bom:**
 
 ```php
-$locations = ['Austin', 'New York', 'San Francisco'];
+$cidades = ['São Paulo', 'Joaçaba', 'Nova York'];
 
-foreach ($locations as $location) {
-    doStuff();
-    doSomeOtherStuff();
+foreach ($cidades as $cidade) {
+    facaAlgumaCoisa();
+    facaAlgumaOutraCoisa();
     // ...
     // ...
     // ...
-    dispatch($location);
+    dispatch($cidade);
 }
 ```
 
@@ -226,11 +226,11 @@ de suas variáveis.
 **Ruim:**
 
 ```php
-class Car
+class Carro
 {
-    public $carMake;
-    public $carModel;
-    public $carColor;
+    public $carroFabricante;
+    public $carroModelo;
+    public $carroCor;
 
     //...
 }
@@ -239,11 +239,11 @@ class Car
 **Bom:**
 
 ```php
-class Car
+class Carro
 {
-    public $make;
-    public $model;
-    public $color;
+    public $fabricante;
+    public $modelo;
+    public $cor;
 
     //...
 }
